@@ -13,7 +13,17 @@ def home(request):
 
 def add_todo(request):
     if request.method == 'POST':
-        text = request.POST.get('text')
-        Todo.objects.create(text=text)
+        form = ToDoForm(request.POST)
+        if form.is_valid():
+            text = form.cleaned_data.get('text')
+            Todo.objects.create(text=text)
         return redirect('home')
     return HttpResponse("Form not submitted.")
+
+
+def delete_todo(request, todo_id):
+    if request.method == 'POST':
+        todo_item = Todo.objects.get(pk=todo_id)
+        todo_item.delete()
+        return redirect('home')
+    return HttpResponse("Method not allowed!")
