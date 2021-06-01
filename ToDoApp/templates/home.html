@@ -26,9 +26,10 @@
 
         <div class="row">
             <div class="col-12">
-                <form class="form-inline justify-content-center">
-                    .<div class="form-group">
-                      <input type="text" name="todo-item" id="" class="form-control" placeholder="Enter your Todo" aria-describedby="helpId">
+                <form class="form-inline justify-content-center" action="add_todo/" method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                      {{ form.text }}
                     </div>
                     <button type="submit" class="btn btn-primary mx-2">Submit</button>
                 </form>
@@ -39,8 +40,13 @@
             <div class="col-12 table-responsive">
                 <table class="table">
                     <tbody>
+                        {% for todo in todo_list %}
                         <tr>
-                            <td>Mark</td>
+                            <td>
+                                <p>{{ todo.text }}</p>
+                                <p class="text-muted"><small>Added On : {{ todo.added_on }}</small></p>
+                                <p class="text-muted"><small>Updated On : {{ todo.updated_on }}</small></p>
+                            </td>
                             <td class="text-right">
                                 <button type="submit" class="btn btn-danger mx-2">DELETE</button>
                             </td>
@@ -48,6 +54,7 @@
                                 <button type="submit" class="btn btn-info mx-2">EDIT</button>
                             </td>
                         </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
