@@ -8,7 +8,7 @@ class Todo(models.Model):
 
     class Meta:
         verbose_name_plural = 'ToDos'
-        ordering = ['-added_on']
+        ordering = ['-updated_on']
 
     def __str__(self):
         return self.text

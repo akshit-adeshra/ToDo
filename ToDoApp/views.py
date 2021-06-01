@@ -27,3 +27,19 @@ def delete_todo(request, todo_id):
         todo_item.delete()
         return redirect('home')
     return HttpResponse("Method not allowed!")
+
+
+def edit_todo(request, todo_id):
+    todo_obj = Todo.objects.get(pk=todo_id)
+
+    form = ToDoForm(initial={'text': todo_obj.text})
+
+    if request.method == 'POST':
+        form = ToDoForm(request.POST)
+        if form.is_valid():
+            todo_obj.text = form.cleaned_data.get('text')
+            todo_obj.save()
+            return redirect('home')
+
+    context = {"app_name": "ToDoApp", 'form': form, 'todo_obj': todo_obj}
+    return render(request, 'edit.html', context)
